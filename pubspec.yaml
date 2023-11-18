@@ -28,17 +28,22 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  animate_do: ^3.1.2
+  country_code_picker: ^3.0.0
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.14.0
   firebase_core: ^2.22.0
   flutter:
     sdk: flutter
+  font_awesome_flutter: ^10.5.0
+  get: ^4.6.6
+  google_fonts: ^6.1.0
   responsive_builder: ^0.7.0
   shared_preferences: ^2.2.2
   uuid: ^4.2.1
 
 dev_dependencies:
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
 
@@ -51,6 +56,9 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/
+    - assets/icons/
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
