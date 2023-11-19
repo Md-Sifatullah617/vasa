@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vasa/utils/colors.dart';
 import 'package:vasa/utils/custom_widgets/text_style.dart';
 
@@ -20,7 +20,7 @@ class PrimaryBtn extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: btnColor ?? AppColors.logoColor,
-        minimumSize: Size(Get.width, Get.height * 0.06),
+        minimumSize: Size(1.sw, 1.sh * 0.06),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),

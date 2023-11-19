@@ -6,6 +6,7 @@ import 'package:vasa/utils/colors.dart';
 import 'package:vasa/utils/custom_widgets/app_heading.dart';
 import 'package:vasa/utils/custom_widgets/custom_text_field.dart';
 import 'package:vasa/utils/custom_widgets/primary_button.dart';
+import 'package:vasa/utils/custom_widgets/text_in_middle.dart';
 import 'package:vasa/utils/custom_widgets/text_style.dart';
 import 'package:vasa/utils/static_data.dart';
 import 'package:vasa/view/auth/login_screen.dart';
@@ -114,9 +115,6 @@ class SignupScreen extends StatelessWidget {
                   icon: const Icon(FontAwesomeIcons.facebook)),
             ],
           ),
-          SizedBox(
-            height: Get.height * 0.02,
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -142,47 +140,6 @@ class SignupScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class TextInTheMiddle extends StatelessWidget {
-  final String text;
-  const TextInTheMiddle({
-    super.key,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          child: Container(
-            height: 1.5,
-            color: const Color(0xFFC4C4C4),
-          ),
-        ),
-        SizedBox(
-          width: Get.width * 0.02,
-        ),
-        Text(
-          text,
-          style: titleStyle.copyWith(
-            fontSize: 15,
-          ),
-        ),
-        SizedBox(
-          width: Get.width * 0.02,
-        ),
-        Expanded(
-          child: Container(
-            height: 1.5,
-            color: const Color(0xFFC4C4C4),
-          ),
-        ),
-      ],
     );
   }
 }

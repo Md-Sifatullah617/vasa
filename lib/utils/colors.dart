@@ -8,4 +8,7 @@ class AppColors {
   static const primaryBlackColor = Color(0xFF32343E);
   static const secondaryBlackColor = Color(0xFF6C6C6C);
   static const fadeBlue = Color(0xFFF0F5FA);
+
+  static const linkedinColor = Color(0xFF0A66C2);
+  static const facebookColor = Color(0xFF3B5998);
 }

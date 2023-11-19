@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vasa/utils/app_imges.dart';
 import 'package:vasa/utils/custom_widgets/text_style.dart';
 
@@ -18,11 +18,11 @@ class AppHeading extends StatelessWidget {
         Image.asset(
           AppImages.vasaIcon,
           color: Colors.black,
-          scale: 10,
+          scale: 10.sp,
         ),
         Text(title,
             style: titleStyle.copyWith(
-              fontSize: 25,
+              fontSize: 25.sp,
             )),
       ],
     );

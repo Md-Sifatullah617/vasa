@@ -1,6 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vasa/utils/colors.dart';
 import 'package:vasa/utils/custom_widgets/text_style.dart';
 
@@ -29,7 +29,7 @@ class CustomTextField extends StatelessWidget {
       children: [
         title == '' ? const SizedBox() : Text(title, style: titleStyle),
         SizedBox(
-          height: Get.height * 0.01,
+          height: 1.sh * 0.01,
         ),
         TextFormField(
           controller: txtController,
@@ -40,8 +40,7 @@ class CustomTextField extends StatelessWidget {
                     onChanged: (CountryCode countryCode) {
                       print("New Country selected: $countryCode");
                     },
-                    initialSelection: 'SA',
-                    favorite: const ['+966', 'SA'],
+                    initialSelection: 'BD',
                     showCountryOnly: false,
                     showOnlyCountryWhenClosed: false,
                     alignLeft: false,
