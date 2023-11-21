@@ -8,7 +8,7 @@ class CheckboxController extends GetxController {
   var isCheck = false.obs;
   var currentIndex = 0.obs;
   var pages = [
-    const FirstScreen(),
+    FirstScreen(),
     const MeetingsDetails(),
     const SettingsPage(),
     const ProfileScreen(),
