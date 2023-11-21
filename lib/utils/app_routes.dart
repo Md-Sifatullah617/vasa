@@ -26,7 +26,7 @@ class AppPageroutes {
     ),
     GetPage(
       name: "/home",
-      page: () => const MyHomePage(),
+      page: () => MyHomePage(),
     ),
   ];
 }

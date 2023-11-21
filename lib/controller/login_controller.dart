@@ -36,8 +36,8 @@ class LoginController extends GetxController {
           "email": user.email,
           "profilePic": user.photoURL,
           "uid": user.uid,
-          "createdAt": DateTime.now(),
-          "lastSeen": DateTime.now(),
+          "createdAt": DateTime.now().toIso8601String(),
+          "lastSeen": DateTime.now().toIso8601String(),
           "phoneNumber": user.phoneNumber,
         };
         if (userCredential.additionalUserInfo!.isNewUser) {
