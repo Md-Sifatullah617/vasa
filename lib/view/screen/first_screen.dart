@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:vasa/controller/signaling.dart';
 import 'package:vasa/utils/custom_widgets/home_icon.dart';
 
@@ -37,6 +38,23 @@ class _FirstScreenState extends State<FirstScreen> {
     super.dispose();
   }
 
+  createMeeting() {
+    _signaling
+        .openUserMedia(_localRenderer, _remoteRenderer)
+        .then((value) async {
+      roodId = await _signaling.createRoom(_remoteRenderer);
+      roomtxtController.text = roodId!;
+      Get.toNamed("/meetnow", arguments: {
+        "localRenderer": _localRenderer,
+        "remoteRenderer": _remoteRenderer,
+        "roomId": roodId,
+        "currentRoomText": roomtxtController.text,
+      });
+
+      return null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +66,10 @@ class _FirstScreenState extends State<FirstScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             HomeIcons(
-              onTap: () {},
+              onTap: () {
+                createMeeting();
+                setState(() {});
+              },
               title: "Meet Now",
               icon: FontAwesomeIcons.video,
             ),
@@ -56,7 +77,9 @@ class _FirstScreenState extends State<FirstScreen> {
               width: 10.w,
             ),
             HomeIcons(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed("/joinmeeting");
+              },
               title: "Join Meeting",
               icon: FontAwesomeIcons.userGroup,
             ),
@@ -81,6 +104,7 @@ class _FirstScreenState extends State<FirstScreen> {
         SizedBox(
           height: 200.h,
         ),
+
         Text(
           textAlign: TextAlign.center,
           "Join meetings just one click away!",

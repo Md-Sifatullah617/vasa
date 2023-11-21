@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 typedef StreamStateCallback = void Function(MediaStream stream);
 
@@ -147,13 +148,21 @@ class SignalingController {
 
   Future<void> openUserMedia(
       RTCVideoRenderer localVideo, RTCVideoRenderer remoteVideo) async {
-    var stream = await navigator.mediaDevices
-        .getUserMedia({'video': true, 'audio': false});
-
-    localVideo.srcObject = stream;
-    localStream = stream;
-
-    remoteVideo.srcObject = await createLocalMediaStream("key");
+    var status = await Permission.camera.request();
+    if (status.isGranted) {
+      status = await Permission.microphone.request();
+      if (status.isGranted) {
+        var stream = await navigator.mediaDevices
+            .getUserMedia({'video': true, 'audio': false});
+        localVideo.srcObject = stream;
+        localStream = stream;
+        remoteVideo.srcObject = await createLocalMediaStream("key");
+      } else {
+        print('Microphone permission not granted');
+      }
+    } else {
+      print('Camera permission not granted');
+    }
   }
 
   Future<void> hangUP(RTCVideoRenderer localVideo) async {
