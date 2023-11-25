@@ -13,7 +13,7 @@ class AppStaticData {
   static String phoneNumber = 'PHONE NUMBER';
   static String signUp = 'Sign Up';
   static String privacyPolicy =
-      'By creating your grandizar account, you agree to the Terms of Use and Privacy Policy';
+      'By creating your Vasha_App account, you agree to the Terms of Use and Privacy Policy';
   static String loginWith = 'Or log in with';
   static String alreadyAccount = 'Already have an Account?';
   static String logIn = 'Log In';
@@ -22,6 +22,7 @@ class AppStaticData {
   static String minLeft = '9:48 min left';
   static String resend = 'Resend';
   static String password = 'Password';
+  static String cpassword = 'Confirm Password';
   static String forgotPassword = 'Forgot password?';
   static String loginwithmobilenumber = 'Or log in with mobile number';
   static String SendCodeforLogIn = 'Send Code for Log In';

@@ -12,15 +12,18 @@ class CustomTextField extends StatelessWidget {
   final String title;
   final Widget? suffixWidget;
   final bool? obscureText;
-  const CustomTextField(
-      {super.key,
-      this.txtController,
-      required this.hintText,
-      this.prefixIcon,
-      required this.title,
-      this.isCountryPicker,
-      this.suffixWidget,
-      this.obscureText});
+  final String? Function(String?)? validator;
+  const CustomTextField({
+    super.key,
+    this.txtController,
+    required this.hintText,
+    this.prefixIcon,
+    required this.title,
+    this.isCountryPicker,
+    this.suffixWidget,
+    this.obscureText,
+    this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +63,7 @@ class CustomTextField extends StatelessWidget {
             fillColor: AppColors.fadeBlue,
             filled: true,
           ),
+          validator: validator,
         ),
       ],
     );
