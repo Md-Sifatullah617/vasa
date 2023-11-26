@@ -14,7 +14,8 @@ import 'package:vasa/view/auth/reset_pass.dart';
 import 'package:vasa/view/auth/sign_up_screen.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+  final LoginController loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(

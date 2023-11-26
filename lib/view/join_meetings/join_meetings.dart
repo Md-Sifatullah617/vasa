@@ -29,7 +29,9 @@ class _JoinMettingScreenState extends State<JoinMettingScreen> {
     _remoteRenderer.initialize();
     _signaling.onAddRemoteStream = (stream) {
       _remoteRenderer.srcObject = stream;
-      setState(() {});
+      setState(() {
+        print("remote stream added");
+      });
     };
     super.initState();
   }

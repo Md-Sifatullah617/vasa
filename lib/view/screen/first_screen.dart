@@ -14,9 +14,9 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  SignalingController _signaling = SignalingController();
-  RTCVideoRenderer _localRenderer = RTCVideoRenderer();
-  RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
+  final SignalingController _signaling = SignalingController();
+  final RTCVideoRenderer _localRenderer = RTCVideoRenderer();
+  final RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
   String? roodId;
   TextEditingController roomtxtController = TextEditingController();
 

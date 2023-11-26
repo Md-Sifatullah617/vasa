@@ -6,6 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 typedef StreamStateCallback = void Function(MediaStream stream);
 
 class SignalingController {
+  //stun and turn server configuration
   Map<String, dynamic> configuration = {
     "iceServers": [
       {
@@ -13,6 +14,36 @@ class SignalingController {
           "stun:stun1.l.google.com:19302",
           "stun:stun2.l.google.com:19302"
         ]
+      },
+      {
+        "urls": 'turn:openrelay.metered.ca:80',
+        "username": 'openrelayproject',
+        "credentials": 'openrelayproject'
+      },
+      {
+        "url": 'turn:numb.viagenie.ca',
+        "credential": 'muazkh',
+        "username": 'webrtc@live.com'
+      },
+      {
+        "url": 'turn:192.158.29.39:3478?transport=udp',
+        "credential": 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+        "username": '28224511:1379330808'
+      },
+      {
+        "url": 'turn:192.158.29.39:3478?transport=tcp',
+        "credential": 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+        "username": '28224511:1379330808'
+      },
+      {
+        "url": 'turn:turn.bistri.com:80',
+        "credential": 'homeo',
+        "username": 'homeo'
+      },
+      {
+        "url": 'turn:turn.anyfirewall.com:443?transport=tcp',
+        "credential": 'webrtc',
+        "username": 'webrtc'
       }
     ]
   };
@@ -148,20 +179,24 @@ class SignalingController {
 
   Future<void> openUserMedia(
       RTCVideoRenderer localVideo, RTCVideoRenderer remoteVideo) async {
-    var status = await Permission.camera.request();
-    if (status.isGranted) {
-      status = await Permission.microphone.request();
+    try {
+      var status = await Permission.camera.request();
       if (status.isGranted) {
-        var stream = await navigator.mediaDevices
-            .getUserMedia({'video': true, 'audio': true});
-        localVideo.srcObject = stream;
-        localStream = stream;
-        remoteVideo.srcObject = await createLocalMediaStream("key");
+        status = await Permission.microphone.request();
+        if (status.isGranted) {
+          var stream = await navigator.mediaDevices
+              .getUserMedia({'video': true, 'audio': true});
+          localVideo.srcObject = stream;
+          localStream = stream;
+          remoteVideo.srcObject = await createLocalMediaStream("key");
+        } else {
+          print('Microphone permission not granted');
+        }
       } else {
-        print('Microphone permission not granted');
+        print('Camera permission not granted');
       }
-    } else {
-      print('Camera permission not granted');
+    } catch (e) {
+      print('Error opening user media: $e');
     }
   }
 
