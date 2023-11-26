@@ -14,7 +14,7 @@ class VerificationScreen extends StatelessWidget {
   final bool? isEmail;
   final bool? sendcodeForLogin;
   const VerificationScreen(
-      {super.key, this.isEmail = false, this.sendcodeForLogin = false});
+      {super.key, this.isEmail = true, this.sendcodeForLogin = true});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +22,24 @@ class VerificationScreen extends StatelessWidget {
       body: GetBuilder<LoginController>(
         builder: (controller) =>
             ListView(padding: EdgeInsets.all(Get.width * 0.05), children: [
+          SizedBox(
+            height: Get.height * 0.05,
+          ),
+          Row(
+            children: [
+              Spacer(),
+              //skip button
+              TextButton(
+                onPressed: () {
+                  Get.offAllNamed("/home");
+                },
+                child: Text(
+                  AppStaticData.skip,
+                  style: subTitleStyle.copyWith(color: AppColors.redColor),
+                ),
+              ),
+            ],
+          ),
           SizedBox(
             height: Get.height * 0.05,
           ),
@@ -46,7 +64,9 @@ class VerificationScreen extends StatelessWidget {
               ? Icon(
                   Icons.verified,
                   size: Get.width * 0.2,
-                  color: AppColors.redColor,
+                  color: controller.verifyUser!.emailVerified
+                      ? AppColors.greenColor
+                      : AppColors.redColor,
                 )
               : CustomTextField(
                   hintText: AppStaticData.verificationCode,

@@ -9,17 +9,40 @@ import 'package:vasa/utils/secured_data.dart';
 class LoginController extends GetxController {
   RxBool isPasswordVisible = false.obs;
   var iscPasswordVisible = false.obs;
-  RxBool obscureText = false.obs;
+  RxBool obscureText1 = true.obs;
+  var obscureText2 = true.obs;
   var isAgreeTerms = false.obs;
   var isLoading = false.obs;
-  Stream<User?>? userStream;
+  final TextEditingController fnameController = TextEditingController();
+  final TextEditingController lnameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController pwdController = TextEditingController();
+  final TextEditingController cpwdController = TextEditingController();
+  User? verifyUser;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  @override
+  void dispose() {
+    fnameController.dispose();
+    lnameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    pwdController.dispose();
+    cpwdController.dispose();
+    obscureText1.close();
+    obscureText2.close();
+    super.dispose();
+  }
+
   void changePasswordVisibility(bool pwd) {
     pwd
         ? isPasswordVisible.value = !isPasswordVisible.value
         : iscPasswordVisible.value = !iscPasswordVisible.value;
-    obscureText.value = !obscureText.value;
+    !pwd
+        ? obscureText2.value = !obscureText2.value
+        : obscureText1.value = !obscureText1.value;
     update();
   }
 
@@ -65,39 +88,47 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<void> signInWithEmailAndPassword({
-    required String email,
-    required String password,
-    required String fname,
-    required String lname,
-    required String phone,
-  }) async {
+  Future<void> signUpWithEmailAndPassword() async {
     try {
       isLoading.value = true;
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+              email: emailController.text, password: pwdController.text);
       User? user = userCredential.user;
-      if (user != null && !user.emailVerified) {
-        await user.sendEmailVerification();
-      } else {
-        Get.offAllNamed("/home");
-        if (user != null) {
-          final userData = {
-            "name": "$fname $lname",
-            "email": user.email,
-            "profilePic": user.photoURL,
-            "uid": user.uid,
-            "createdAt": DateTime.now().toIso8601String(),
-            "lastSeen": DateTime.now().toIso8601String(),
-            "phoneNumber": phone,
-          };
-          if (userCredential.additionalUserInfo!.isNewUser) {
-            await _firestore.collection("users").doc(user.uid).set(userData);
-          }
+      if (user != null && userCredential.additionalUserInfo!.isNewUser) {
+        verifyUser = user;
+        final userData = {
+          "name": "${fnameController.text} ${lnameController.text}",
+          "email": emailController.text,
+          "profilePic": verifyUser!.photoURL,
+          "uid": verifyUser!.uid,
+          "createdAt": DateTime.now().toIso8601String(),
+          "lastSeen": DateTime.now().toIso8601String(),
+          "phoneNumber": "+880${phoneController.text}",
+          "password": pwdController.text,
+        };
+        await _firestore
+            .collection("users")
+            .doc(verifyUser!.uid)
+            .set(userData)
+            .then((value) async {
           await SecureData.writeSecureData(key: "user", value: userData);
-        }
+          isLoading.value = false;
+        });
+        Get.offAllNamed("/verify");
       }
       isLoading.value = false;
+    } on FirebaseAuthException catch (e) {
+      isLoading.value = false;
+      customToast(msg: e.message!, isError: true);
+      print("Error in email sign in $e");
+    }
+  }
+
+  Future<void> verifyEmail() async {
+    try {
+      isLoading.value = true;
+      await verifyUser!.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       isLoading.value = false;
       customToast(msg: e.message!, isError: true);

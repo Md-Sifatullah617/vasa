@@ -1,4 +1,5 @@
 class AppStaticData {
+  static String skip = 'Skip';
   static String reg = 'New Registration';
   static String verification = 'Phone Verification Code';
   static String verificationEmail = 'Email Verification';

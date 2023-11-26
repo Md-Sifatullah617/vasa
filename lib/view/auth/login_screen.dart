@@ -42,7 +42,7 @@ class LoginScreen extends StatelessWidget {
             hintText: AppStaticData.password,
             prefixIcon: Icons.lock,
             title: AppStaticData.password,
-            obscureText: loginController.obscureText.value,
+            obscureText: loginController.obscureText1.value,
             suffixWidget: InkWell(
               onTap: () {
                 loginController.changePasswordVisibility(true);
