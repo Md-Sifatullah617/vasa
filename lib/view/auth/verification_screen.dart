@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vasa/controller/login_controller.dart';
 import 'package:vasa/utils/colors.dart';
 import 'package:vasa/utils/custom_widgets/app_heading.dart';
 import 'package:vasa/utils/custom_widgets/custom_text_field.dart';
@@ -18,61 +19,70 @@ class VerificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(padding: EdgeInsets.all(Get.width * 0.05), children: [
-        SizedBox(
-          height: Get.height * 0.05,
-        ),
-        AppHeading(
-            title: isEmail!
-                ? AppStaticData.verificationEmail
-                : AppStaticData.verification),
-        SizedBox(
-          height: Get.height * 0.01,
-        ),
-        Text(
-          textAlign: TextAlign.center,
+      body: GetBuilder<LoginController>(
+        builder: (controller) =>
+            ListView(padding: EdgeInsets.all(Get.width * 0.05), children: [
+          SizedBox(
+            height: Get.height * 0.05,
+          ),
+          AppHeading(
+              title: isEmail!
+                  ? AppStaticData.verificationEmail
+                  : AppStaticData.verification),
+          SizedBox(
+            height: Get.height * 0.01,
+          ),
+          Text(
+            textAlign: TextAlign.center,
+            isEmail!
+                ? AppStaticData.verificationCodeSentTo
+                : AppStaticData.verificationCodeSent,
+            style: subTitleStyle,
+          ),
+          SizedBox(
+            height: Get.height * 0.05,
+          ),
           isEmail!
-              ? AppStaticData.verificationCodeSentTo
-              : AppStaticData.verificationCodeSent,
-          style: subTitleStyle,
-        ),
-        SizedBox(
-          height: Get.height * 0.05,
-        ),
-        CustomTextField(
-          hintText: AppStaticData.verificationCode,
-          title: "",
-        ),
-        SizedBox(
-          height: Get.height * 0.02,
-        ),
-        PrimaryBtn(
-          title: sendcodeForLogin!
-              ? AppStaticData.VerifyNow_SignIn
-              : AppStaticData.verifyNow,
-          onPressed: () {
-            sendcodeForLogin!
-                ? Get.to(() => LoginScreen())
-                : Get.to(() => NewPasswordSetScreen());
-          },
-        ),
-        SizedBox(
-          height: Get.height * 0.02,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(AppStaticData.minLeft, style: subTitleStyle),
-            SizedBox(
-              width: Get.width * 0.02,
-            ),
-            Text(
-              AppStaticData.resend,
-              style: subTitleStyle.copyWith(color: AppColors.redColor),
-            ),
-          ],
-        ),
-      ]),
+              ? Icon(
+                  Icons.verified,
+                  size: Get.width * 0.2,
+                  color: controller ? AppColors.greenColor : AppColors.redColor,
+                )
+              : CustomTextField(
+                  hintText: AppStaticData.verificationCode,
+                  title: "",
+                ),
+          SizedBox(
+            height: Get.height * 0.02,
+          ),
+          PrimaryBtn(
+            title: sendcodeForLogin!
+                ? AppStaticData.VerifyNow_SignIn
+                : AppStaticData.verifyNow,
+            onPressed: () {
+              sendcodeForLogin!
+                  ? Get.to(() => LoginScreen())
+                  : Get.to(() => NewPasswordSetScreen());
+            },
+          ),
+          SizedBox(
+            height: Get.height * 0.02,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(AppStaticData.minLeft, style: subTitleStyle),
+              SizedBox(
+                width: Get.width * 0.02,
+              ),
+              Text(
+                AppStaticData.resend,
+                style: subTitleStyle.copyWith(color: AppColors.redColor),
+              ),
+            ],
+          ),
+        ]),
+      ),
     );
   }
 }
