@@ -45,7 +45,7 @@ class AppPageroutes {
     ),
     GetPage(
       name: "/joinmeeting",
-      page: () => const JoinMettingScreen(),
+      page: () => JoinMettingScreen(),
     ),
   ];
 }

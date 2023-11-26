@@ -5,12 +5,18 @@ import 'package:vasa/utils/colors.dart';
 class HomeIcons extends StatelessWidget {
   final String? title;
   final IconData? icon;
+  final Color? color;
+  final Color? iconColor;
+  final double? bradius;
   final VoidCallback? onTap;
   const HomeIcons({
     super.key,
     this.title,
     this.icon,
     this.onTap,
+    this.color,
+    this.iconColor,
+    this.bradius,
   });
 
   @override
@@ -23,17 +29,19 @@ class HomeIcons extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(10.r),
             decoration: BoxDecoration(
-                color: AppColors.logoColor,
-                borderRadius: BorderRadius.circular(10.r)),
+                color: color ?? AppColors.logoColor,
+                borderRadius: BorderRadius.circular(bradius ?? 10.r)),
             child: Icon(
               icon!,
-              color: AppColors.whiteColor,
+              color: iconColor ?? AppColors.whiteColor,
             ),
           ),
-          Text(
-            title!,
-            style: Theme.of(context).textTheme.titleSmall,
-          )
+          title == null
+              ? const SizedBox()
+              : Text(
+                  title!,
+                  style: Theme.of(context).textTheme.titleSmall,
+                )
         ],
       ),
     );

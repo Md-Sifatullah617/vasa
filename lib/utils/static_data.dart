@@ -1,4 +1,7 @@
 class AppStaticData {
+  static String join = 'Join';
+  static String code = "XXX-XXX-XXX";
+  static String enterCodetoJoinMeeting = 'Enter Code to Join Meeting';
   static String skip = 'Skip';
   static String reg = 'New Registration';
   static String verification = 'Phone Verification Code';

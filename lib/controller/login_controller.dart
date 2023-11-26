@@ -74,6 +74,7 @@ class LoginController extends GetxController {
           "createdAt": DateTime.now().toIso8601String(),
           "lastSeen": DateTime.now().toIso8601String(),
           "phoneNumber": user.phoneNumber,
+          "password": null,
         };
         if (userCredential.additionalUserInfo!.isNewUser) {
           await _firestore.collection("users").doc(user.uid).set(userData);
@@ -116,6 +117,27 @@ class LoginController extends GetxController {
           isLoading.value = false;
         });
         Get.offAllNamed("/verify");
+      }
+      isLoading.value = false;
+    } on FirebaseAuthException catch (e) {
+      isLoading.value = false;
+      customToast(msg: e.message!, isError: true);
+      print("Error in email sign in $e");
+    }
+  }
+
+  Future<void> signInWithEmailAndPassword() async {
+    try {
+      isLoading.value = true;
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: emailController.text, password: pwdController.text);
+      User? user = userCredential.user;
+      if (user != null) {
+        var userData = await _firestore.collection("users").doc(user.uid).get();
+        print("User Data: ${userData.data()}");
+        await SecureData.writeSecureData(key: "user", value: userData.data());
+        isLoading.value = false;
+        Get.offAllNamed("/home");
       }
       isLoading.value = false;
     } on FirebaseAuthException catch (e) {

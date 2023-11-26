@@ -14,8 +14,7 @@ import 'package:vasa/view/auth/reset_pass.dart';
 import 'package:vasa/view/auth/sign_up_screen.dart';
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
-  final LoginController loginController = Get.put(LoginController());
+  const LoginScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +29,7 @@ class LoginScreen extends StatelessWidget {
           height: 1.sh * 0.05,
         ),
         CustomTextField(
+          txtController: controller.emailController,
           hintText: AppStaticData.emailAddress,
           prefixIcon: Icons.email,
           title: AppStaticData.email,
@@ -39,16 +39,17 @@ class LoginScreen extends StatelessWidget {
         ),
         Obx(
           () => CustomTextField(
+            txtController: controller.pwdController,
             hintText: AppStaticData.password,
             prefixIcon: Icons.lock,
             title: AppStaticData.password,
-            obscureText: loginController.obscureText1.value,
+            obscureText: controller.obscureText1.value,
             suffixWidget: InkWell(
               onTap: () {
-                loginController.changePasswordVisibility(true);
+                controller.changePasswordVisibility(true);
               },
               child: Icon(
-                loginController.isPasswordVisible.value
+                controller.isPasswordVisible.value
                     ? Icons.visibility_off
                     : Icons.visibility,
                 color: AppColors.secondaryBlackColor,
@@ -149,10 +150,18 @@ class LoginScreen extends StatelessWidget {
         SizedBox(
           height: 1.sh * 0.02,
         ),
-        PrimaryBtn(
-          title: AppStaticData.logIn,
-          btnColor: AppColors.logoColor,
-          onPressed: () {},
+        Obx(
+          () => controller.isLoading.value
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : PrimaryBtn(
+                  title: AppStaticData.logIn,
+                  btnColor: AppColors.logoColor,
+                  onPressed: () {
+                    controller.signInWithEmailAndPassword();
+                  },
+                ),
         ),
         SizedBox(
           height: Get.height * 0.05,

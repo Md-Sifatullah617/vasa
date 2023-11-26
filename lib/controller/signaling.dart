@@ -87,8 +87,8 @@ class SignalingController {
     return roomId;
   }
 
-  Future<void> joinRoom() async {
-    DocumentReference roomRef = _db.collection("rooms").doc("$roomId");
+  Future<void> joinRoom(String roomId, RTCVideoRenderer remoteVideo) async {
+    DocumentReference roomRef = _db.collection("rooms").doc(roomId);
     var roomSnapshot = await roomRef.get();
     print("Got room ${roomSnapshot.exists}");
     if (roomSnapshot.exists) {
@@ -153,7 +153,7 @@ class SignalingController {
       status = await Permission.microphone.request();
       if (status.isGranted) {
         var stream = await navigator.mediaDevices
-            .getUserMedia({'video': true, 'audio': false});
+            .getUserMedia({'video': true, 'audio': true});
         localVideo.srcObject = stream;
         localStream = stream;
         remoteVideo.srcObject = await createLocalMediaStream("key");
