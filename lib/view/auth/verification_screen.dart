@@ -46,7 +46,7 @@ class VerificationScreen extends StatelessWidget {
               ? Icon(
                   Icons.verified,
                   size: Get.width * 0.2,
-                  color: controller ? AppColors.greenColor : AppColors.redColor,
+                  color: AppColors.redColor,
                 )
               : CustomTextField(
                   hintText: AppStaticData.verificationCode,

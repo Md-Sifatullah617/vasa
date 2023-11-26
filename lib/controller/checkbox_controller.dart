@@ -11,7 +11,7 @@ class CheckboxController extends GetxController {
     FirstScreen(),
     const MeetingsDetails(),
     const SettingsPage(),
-    const ProfileScreen(),
+    ProfileScreen(),
   ];
   void changeStatus() {
     isCheck.value = !isCheck.value;
