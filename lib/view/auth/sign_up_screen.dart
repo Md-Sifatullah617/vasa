@@ -11,6 +11,7 @@ import 'package:vasa/utils/custom_widgets/primary_button.dart';
 import 'package:vasa/utils/custom_widgets/text_in_middle.dart';
 import 'package:vasa/utils/custom_widgets/text_style.dart';
 import 'package:vasa/utils/static_data.dart';
+import 'package:vasa/view/auth/email_verify.dart';
 import 'package:vasa/view/auth/login_screen.dart';
 import 'package:vasa/view/auth/verification_screen.dart';
 
@@ -48,7 +49,7 @@ class SignupScreen extends StatelessWidget {
                   prefixIcon: Icons.person,
                   title: AppStaticData.firstNameUpper,
                   validator: (value) {
-                    if (value!.isEmpty) {
+                    if (value!.isEmpty || value == null) {
                       return "Please enter first name";
                     }
                   }),
@@ -59,7 +60,13 @@ class SignupScreen extends StatelessWidget {
                   txtController: lnameController,
                   hintText: AppStaticData.lastName,
                   prefixIcon: Icons.person,
-                  title: AppStaticData.lastNameUpper),
+                  title: AppStaticData.lastNameUpper,
+                  validator: (value) {
+                    if (value!.isEmpty || value == null) {
+                      return "Please enter last name";
+                    }
+                  }),
+
               SizedBox(
                 height: Get.height * 0.02,
               ),
@@ -67,7 +74,16 @@ class SignupScreen extends StatelessWidget {
                   txtController: emailController,
                   hintText: AppStaticData.emailAddress,
                   prefixIcon: Icons.email,
-                  title: AppStaticData.email),
+                  title: AppStaticData.email,
+                  validator: (value) {
+                    if (value!.isEmpty || value == null) {
+                      return "Please enter email address";
+                    } else if (!GetUtils.isEmail(value)) {
+                      return "Please enter valid email address";
+                    } else {
+                      return null;
+                    }
+                  }),
               SizedBox(
                 height: Get.height * 0.02,
               ),
@@ -76,7 +92,18 @@ class SignupScreen extends StatelessWidget {
                   isCountryPicker: true,
                   hintText: AppStaticData.phoneNumber,
                   prefixIcon: Icons.lock,
-                  title: AppStaticData.phoneNo),
+                  title: AppStaticData.phoneNo,
+                  validator: (value) {
+                    if (value!.isEmpty || value == null) {
+                      return "Please enter phone number";
+                    } else if (!GetUtils.isPhoneNumber(value)) {
+                      return "Please enter valid phone number";
+                    } else if (value.length < 11) {
+                      return "Please enter valid phone number";
+                    } else {
+                      return null;
+                    }
+                  }),
               SizedBox(
                 height: Get.height * 0.02,
               ),
@@ -89,7 +116,7 @@ class SignupScreen extends StatelessWidget {
                 obscureText: loginController.obscureText.value,
                 suffixWidget: InkWell(
                   onTap: () {
-                    loginController.changePasswordVisibility();
+                    loginController.changePasswordVisibility(true);
                   },
                   child: Icon(
                     loginController.isPasswordVisible.value
@@ -98,6 +125,15 @@ class SignupScreen extends StatelessWidget {
                     color: AppColors.secondaryBlackColor,
                   ),
                 ),
+                validator: (value) {
+                  if (value!.isEmpty || value == null) {
+                    return "Please enter password";
+                  } else if (value.length < 8) {
+                    return "Password must be 8 characters long";
+                  } else {
+                    return null;
+                  }
+                },
               ),
               SizedBox(
                 height: Get.height * 0.02,
@@ -110,7 +146,7 @@ class SignupScreen extends StatelessWidget {
                 obscureText: loginController.obscureText.value,
                 suffixWidget: InkWell(
                   onTap: () {
-                    loginController.changePasswordVisibility();
+                    loginController.changePasswordVisibility(false);
                   },
                   child: Icon(
                     loginController.isPasswordVisible.value
@@ -119,6 +155,17 @@ class SignupScreen extends StatelessWidget {
                     color: AppColors.secondaryBlackColor,
                   ),
                 ),
+                validator: (value) {
+                  if (value!.isEmpty || value == null) {
+                    return "Please enter confirm password";
+                  } else if (value.length < 8) {
+                    return "Password must be 8 characters long";
+                  } else if (value != pwdController.text) {
+                    return "Password and confirm password must be same";
+                  } else {
+                    return null;
+                  }
+                },
               ),
               SizedBox(
                 height: Get.height * 0.02,
@@ -131,7 +178,10 @@ class SignupScreen extends StatelessWidget {
                     ;
                     if (_formKey.currentState!.validate()) {
                       if (loginController.isAgreeTerms.value) {
-                        Get.to(() => VerificationScreen());
+                        Get.to(() => VerificationScreen(
+                              isEmail: true,
+                              sendcodeForLogin: true,
+                            ));
                       } else {
                         customToast(
                             msg: "Please agree to terms and conditions",

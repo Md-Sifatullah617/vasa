@@ -45,7 +45,7 @@ class LoginScreen extends StatelessWidget {
             obscureText: loginController.obscureText.value,
             suffixWidget: InkWell(
               onTap: () {
-                loginController.changePasswordVisibility();
+                loginController.changePasswordVisibility(true);
               },
               child: Icon(
                 loginController.isPasswordVisible.value

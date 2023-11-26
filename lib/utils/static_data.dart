@@ -1,7 +1,7 @@
 class AppStaticData {
   static String reg = 'New Registration';
   static String verification = 'Phone Verification Code';
-  static String verificationEmail = 'Email Verification Code';
+  static String verificationEmail = 'Email Verification';
   static String verificationCodeSent =
       'Please type the verification code\nsent to +966 917 913 4501';
   static String firstNameUpper = 'FIRST NAME';
