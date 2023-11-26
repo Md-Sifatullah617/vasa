@@ -52,4 +52,10 @@ class LoginController extends GetxController {
       print("Error in google sign in $e");
     }
   }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
+    await SecureData.deleteSecureData(key: "user");
+    Get.offAllNamed("/login");
+  }
 }
